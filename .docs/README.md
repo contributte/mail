@@ -36,6 +36,26 @@ post:
     mailer: Contributte\Mail\Mailer\CompositeMailer([@mailer1, @mailer2])
 ```
 
+Extensions has two modes:
+
+```yaml
+post:
+  mode: standalone
+  # OR
+  mode: override
+```
+
+- standalone (by default)
+- override 
+
+### Stanalone 
+
+Disable autowiring for `nette.mailer` and `mail.mailer`.
+
+### Override
+
+Drop `nette.mailer`, `mail.mailer` services and alias them to `post.mailer`.
+
 ## Mailers
 
 ### FileMailer
