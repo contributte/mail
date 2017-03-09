@@ -1,0 +1,82 @@
+{
+  "name": "contributte/mail",
+  "description": "Extra contrib to nette/mail",
+  "keywords": ["nette", "latte", "extra"],
+  "type": "library",
+  "license": ["MIT"],
+  "homepage": "https://github.com/contributte/mail",
+  "authors": [
+    {
+      "name": "Milan Felix Sulc",
+      "homepage": "https://jfx.cz"
+    }
+  ],
+  "require": {
+    "php": ">= 5.6",
+    "nette/mail": "^2.4.1",
+    "nette/utils": "^2.4.4"
+  },
+  "require-dev": {
+    "ninjify/qa": "^0.3.3",
+    "ninjify/nunjuck": "^0.1.4",
+    "nette/di": "^2.4.7"
+  },
+  "suggest": {
+    "nette/di": "to use MailerExtension[CompilerExtension]"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contributte\\Mail\\": "src"
+    }
+  },
+  "scripts": {
+    "qa": [
+      "@qa-linter",
+      "@qa-codesniffer"
+    ],
+    "ci": [
+      "@qa-linter",
+      "@qa-codesniffer",
+      "@qa-tester-info",
+      "@qa-tester"
+    ],
+    "qa-codesniffer": [
+      "Ninjify\\Composer\\Script\\CodeSniffer::execute"
+    ],
+    "qa-codefixer": [
+      "Ninjify\\Composer\\Script\\CodeFixer::execute"
+    ],
+    "qa-linter": [
+      "Ninjify\\Composer\\Script\\Linter::execute"
+    ],
+    "qa-tester": [
+      "nunjuck tests/cases -s -p php -c tests/php-unix.ini"
+    ],
+    "qa-tester-info": [
+      "nunjuck tests/cases -s -p php -c tests/php-unix.ini -i"
+    ],
+    "qa-tester-coverage": [
+      "nunjuck tests/cases -s -p php -c tests/php-unix.ini -d extension=xdebug.so --coverage ./coverage.xml --coverage-src ./src"
+    ],
+    "qa-tester-coverage-info": [
+      "nunjuck tests/cases -s -p php -c tests/php-unix.ini -d extension=xdebug.so --coverage ./coverage.xml --coverage-src ./src -i"
+    ]
+  },
+  "extra": {
+    "ninjify": {
+      "qa": {
+        "codesniffer": {
+          "ruleset": "nette",
+          "folders": ["src", "tests"]
+        },
+        "codefixer": {
+          "ruleset": "nette",
+          "folders": ["src", "tests"]
+        },
+        "linter": {
+          "folders": ["src", "tests"]
+        }
+      }
+    }
+  }
+}
