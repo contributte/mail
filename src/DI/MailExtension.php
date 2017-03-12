@@ -44,6 +44,11 @@ class MailExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('messageFactory'))
 			->setClass(MessageFactory::class);
+
+		if ($config['mailer']) {
+			$mailer = $builder->addDefinition($this->prefix('mailer'));
+			Compiler::loadDefinition($mailer, $config['mailer']);
+		}
 	}
 
 	/**
@@ -57,9 +62,6 @@ class MailExtension extends CompilerExtension
 		$config = $this->validateConfig($this->defaults);
 
 		if (!$config['mailer']) return;
-
-		$mailer = $builder->addDefinition($this->prefix('mailer'));
-		Compiler::loadDefinition($mailer, $config['mailer']);
 
 		// Handle nette/mail configuration
 		if ($this->name !== 'mail') {

@@ -116,3 +116,26 @@ test(function () {
 		}, 6);
 	}, InvalidArgumentException::class, 'Invalid mode "foobar", allowed are [ standalone | override ]');
 });
+
+test(function () {
+	$loader = new ContainerLoader(TEMP_DIR, TRUE);
+	$class = $loader->load(function (Compiler $compiler) {
+		$compiler->addExtension('post', new MailExtension());
+		$compiler->loadConfig(FileMock::create('
+		services:
+			post.mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%)
+		post:
+			mailer: Contributte\Mail\Mailer\SmtpMailer
+		', 'neon'));
+		$compiler->addConfig([
+			'parameters' => [
+				'tempDir' => TEMP_DIR,
+			],
+		]);
+	}, 7);
+
+	/** @var Container $container */
+	$container = new $class;
+
+	Assert::type(FileMailer::class, $container->getByType(IMailer::class));
+});
