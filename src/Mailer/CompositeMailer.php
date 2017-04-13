@@ -44,7 +44,7 @@ final class CompositeMailer implements IMailer
 	{
 		foreach ($this->mailers as $mailer) {
 			try {
-				$mailer->send($mail);
+				$mailer->send(clone $mail);
 			} catch (Exception $e) {
 				if (!$this->silent) {
 					throw $e;

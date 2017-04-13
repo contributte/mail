@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\DI;
+
 /**
  * Test: DI\MailExtension
  */
