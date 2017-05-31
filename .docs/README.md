@@ -8,10 +8,11 @@
     - [SendmailMailer](#sendmailmailer)
     - [DevOpsMailer](#devopsmailer)
     - [CompositeMailer](#compositemailer)
+- [Message](#message)
 
 ## MailExtension
 
-You have to register it at first.
+You have to manually register this extension at first place.
 
 Be careful `nette/mail` is registered by default under key `mail`, that's why we have picked key `post`.
 
@@ -20,7 +21,7 @@ extensions:
     post: Contributte\Mail\MailExtension
 ```
 
-There is a serveral implementation of mailers.
+There is a several implementation of mailers.
 
 ```yaml
 post:
@@ -36,7 +37,7 @@ post:
     mailer: Contributte\Mail\Mailer\CompositeMailer([@mailer1, @mailer2])
 ```
 
-Extensions has two modes:
+As you can see, extension has two modes:
 
 ```yaml
 post:
@@ -48,19 +49,19 @@ post:
 - standalone (by default)
 - override 
 
-### Stanalone 
+### Standalone 
 
-Disable autowiring for `nette.mailer` and `mail.mailer`.
+It disables autowiring of `nette.mailer` and `mail.mailer`.
 
 ### Override
 
-Drop `nette.mailer`, `mail.mailer` services and alias them to `post.mailer`.
+It drops `nette.mailer`, `mail.mailer` services and alias them to `post.mailer`.
 
 ## Mailers
 
 ### FileMailer
 
-Store emails at your file system.
+Stores emails at your file system.
 
 ```php
 $mailer = new FileMailer(__DIR__ . '/temp');
@@ -87,7 +88,7 @@ $mailer->onSend[] = function($mailer, $message) {}
 Send all emails to one address with preserved original attributes.
 
 ```php
-$mailer = DevOpsMailer('dev@contributte.org');
+$mailer = new DevOpsMailer('dev@contributte.org');
 ```
 
 ### CompositeMailer
@@ -100,3 +101,9 @@ $mailer = new CompositeMailer([
     new DevOpsMailer('dev@contributte.org'),
 ]);
 ```
+
+## Message
+
+### `Message::addTos(array $tos)`
+
+This is wrapper that accepts array of receivers and call `addTo` with each of them.
