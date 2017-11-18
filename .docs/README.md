@@ -18,7 +18,7 @@ Be careful `nette/mail` is registered by default under key `mail`, that's why we
 
 ```yaml
 extensions:
-    post: Contributte\Mail\MailExtension
+    post: Contributte\Mail\DI\MailExtension
 ```
 
 There is a several implementation of mailers.
