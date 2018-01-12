@@ -24,9 +24,10 @@ composer require contributte/mail
 
 ## Versions
 
-| State       | Version | Branch   | PHP      |
-|-------------|---------|----------|----------|
-| stable      | `^0.1`  | `master` | `>= 5.6` |
+| State       | Version     | Branch   | PHP      |
+|-------------|-------------|----------|----------|
+| development | dev-master  | `master` | `>= 5.6` |
+| stable      | `^0.1`      | `master` | `>= 5.6` |
 
 ## Overview
 
