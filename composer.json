@@ -29,6 +29,12 @@
       "Contributte\\Mail\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/cases",
+      "Fixtures\\": "tests/fixtures"
+    }
+  },
   "scripts": {
     "qa": [
       "linter src tests",
