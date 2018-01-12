@@ -7,25 +7,12 @@ namespace Tests\Mailer;
  */
 
 use Contributte\Mail\Mailer\CompositeMailer;
-use Nette\Mail\IMailer;
+use Fixtures\ModifyMailer;
 use Nette\Mail\Message;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-class ModifyMailer implements IMailer
-{
-
-	/**
-	 * @param Message $mail
-	 * @return void
-	 */
-	public function send(Message $mail)
-	{
-		$mail->setSubject('modified');
-	}
-
-}
 
 test(function () {
 	$cm = new CompositeMailer(TRUE);
