@@ -17,9 +17,10 @@
     "nette/utils": "^2.4.4"
   },
   "require-dev": {
-    "ninjify/qa": "^0.4.0",
+    "nette/di": "^2.4.9",
     "ninjify/nunjuck": "^0.1.4",
-    "nette/di": "^2.4.9"
+    "ninjify/qa": "^0.4.0",
+    "tracy/tracy": "^2.4.0"
   },
   "suggest": {
     "nette/di": "to use MailerExtension[CompilerExtension]"
