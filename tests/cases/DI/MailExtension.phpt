@@ -8,7 +8,7 @@ namespace Tests\DI;
 
 use Contributte\Mail\DI\MailExtension;
 use Contributte\Mail\Mailer\FileMailer;
-use Contributte\Mail\Message\MessageFactory;
+use Contributte\Mail\Mailer\TraceableMailer;
 use Nette\Bridges\MailDI\MailExtension as NetteMailExtension;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
@@ -96,14 +96,23 @@ test(function () {
 test(function () {
 	$loader = new ContainerLoader(TEMP_DIR, TRUE);
 	$class = $loader->load(function (Compiler $compiler) {
-		$compiler->addExtension('post', new MailExtension());
+		$compiler->addExtension('mail', new MailExtension());
+		$compiler->addConfig([
+			'parameters' => [
+				'tempDir' => TEMP_DIR,
+			],
+		]);
+		$compiler->loadConfig(FileMock::create('
+		mail:
+			mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%)
+			debug: true
+		', 'neon'));
 	}, 5);
 
 	/** @var Container $container */
 	$container = new $class;
 
-	Assert::type(MessageFactory::class, $container->getByType(MessageFactory::class));
-	Assert::false($container->hasService('post.mailer'));
+	Assert::type(TraceableMailer::class, $container->getByType(IMailer::class));
 });
 
 test(function () {
