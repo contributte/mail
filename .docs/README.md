@@ -1,4 +1,6 @@
-# Mail
+# Contributte > Mail
+
+:sparkles: Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 
 ## Content
 

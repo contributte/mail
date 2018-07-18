@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Mailer;
 
@@ -14,21 +14,15 @@ final class TraceableMailer implements IMailer
 	/** @var Message[] */
 	private $mails = [];
 
-	/**
-	 * @param IMailer $mailer
-	 */
-	public function __construct(Imailer $mailer)
+	public function __construct(IMailer $mailer)
 	{
 		$this->mailer = $mailer;
 	}
 
 	/**
 	 * Sends email
-	 *
-	 * @param Message $mail
-	 * @return void
 	 */
-	public function send(Message $mail)
+	public function send(Message $mail): void
 	{
 		// Trace sent mails
 		$this->mails[] = $mail;
@@ -40,7 +34,7 @@ final class TraceableMailer implements IMailer
 	/**
 	 * @return Message[]
 	 */
-	public function getMails()
+	public function getMails(): array
 	{
 		return $this->mails;
 	}

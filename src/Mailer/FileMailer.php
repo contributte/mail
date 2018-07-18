@@ -1,33 +1,26 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Mailer;
 
+use Contributte\Mail\Exception\RuntimeException;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class FileMailer implements IMailer
 {
 
 	/** @var string */
 	private $path;
 
-	/**
-	 * @param string $path
-	 */
-	public function __construct($path)
+	public function __construct(string $path)
 	{
-		@mkdir($path, 0777, TRUE);
+		if (!is_dir($path) && !mkdir($path, 0777, true)) {
+			throw new RuntimeException(sprintf('Directory "%s" was not created', $path));
+		}
 		$this->path = realpath($path) . DIRECTORY_SEPARATOR;
 	}
 
-	/**
-	 * @param Message $mail
-	 * @return void
-	 */
-	public function send(Message $mail)
+	public function send(Message $mail): void
 	{
 		file_put_contents($this->path . date('Y-m-d H-i-s') . microtime() . '.eml', $mail->generateMessage());
 	}

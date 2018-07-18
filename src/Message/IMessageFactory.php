@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Message;
 
@@ -7,9 +7,6 @@ use Nette\Mail\Message;
 interface IMessageFactory
 {
 
-	/**
-	 * @return Message
-	 */
-	public function create();
+	public function create(): Message;
 
 }

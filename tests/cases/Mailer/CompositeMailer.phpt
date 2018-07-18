@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Mailer;
 
@@ -14,8 +14,8 @@ use Tester\Assert;
 require_once __DIR__ . '/../../bootstrap.php';
 
 
-test(function () {
-	$cm = new CompositeMailer(TRUE);
+test(function (): void {
+	$cm = new CompositeMailer(true);
 	$cm->add(new ModifyMailer());
 
 	$message = new Message();
