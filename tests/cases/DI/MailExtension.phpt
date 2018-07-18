@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\DI;
 
@@ -7,13 +7,13 @@ namespace Tests\DI;
  */
 
 use Contributte\Mail\DI\MailExtension;
+use Contributte\Mail\Exception\Logic\InvalidArgumentException;
 use Contributte\Mail\Mailer\FileMailer;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Nette\Bridges\MailDI\MailExtension as NetteMailExtension;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
-use Nette\InvalidArgumentException;
 use Nette\Mail\IMailer;
 use Nette\Mail\SendmailMailer;
 use Tester\Assert;
@@ -21,9 +21,9 @@ use Tester\FileMock;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-test(function () {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
-	$class = $loader->load(function (Compiler $compiler) {
+test(function (): void {
+	$loader = new ContainerLoader(TEMP_DIR, true);
+	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('mail', new MailExtension());
 		$compiler->addConfig([
 			'parameters' => [
@@ -37,14 +37,14 @@ test(function () {
 	}, 1);
 
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	Assert::type(FileMailer::class, $container->getByType(IMailer::class));
 });
 
-test(function () {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
-	$class = $loader->load(function (Compiler $compiler) {
+test(function (): void {
+	$loader = new ContainerLoader(TEMP_DIR, true);
+	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('mail', new NetteMailExtension());
 		$compiler->addExtension('post', new MailExtension());
 		$compiler->addConfig([
@@ -59,7 +59,7 @@ test(function () {
 	}, 3);
 
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	Assert::type(FileMailer::class, $container->getByType(IMailer::class));
 	Assert::type(SendmailMailer::class, $container->getService('nette.mailer'));
@@ -67,9 +67,9 @@ test(function () {
 	Assert::type(FileMailer::class, $container->getService('post.mailer'));
 });
 
-test(function () {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
-	$class = $loader->load(function (Compiler $compiler) {
+test(function (): void {
+	$loader = new ContainerLoader(TEMP_DIR, true);
+	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('mail', new NetteMailExtension());
 		$compiler->addExtension('post', new MailExtension());
 		$compiler->addConfig([
@@ -85,7 +85,7 @@ test(function () {
 	}, 4);
 
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	Assert::type(FileMailer::class, $container->getByType(IMailer::class));
 	Assert::type(FileMailer::class, $container->getService('nette.mailer'));
@@ -93,9 +93,9 @@ test(function () {
 	Assert::type(FileMailer::class, $container->getService('post.mailer'));
 });
 
-test(function () {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
-	$class = $loader->load(function (Compiler $compiler) {
+test(function (): void {
+	$loader = new ContainerLoader(TEMP_DIR, true);
+	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('mail', new MailExtension());
 		$compiler->addConfig([
 			'parameters' => [
@@ -110,15 +110,15 @@ test(function () {
 	}, 5);
 
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	Assert::type(TraceableMailer::class, $container->getByType(IMailer::class));
 });
 
-test(function () {
-	Assert::throws(function () {
-		$loader = new ContainerLoader(TEMP_DIR, TRUE);
-		$class = $loader->load(function (Compiler $compiler) {
+test(function (): void {
+	Assert::throws(function (): void {
+		$loader = new ContainerLoader(TEMP_DIR, true);
+		$class = $loader->load(function (Compiler $compiler): void {
 			$compiler->addExtension('post', new MailExtension());
 			$compiler->loadConfig(FileMock::create('
 		post:
@@ -128,9 +128,9 @@ test(function () {
 	}, InvalidArgumentException::class, 'Invalid mode "foobar", allowed are [ standalone | override ]');
 });
 
-test(function () {
-	$loader = new ContainerLoader(TEMP_DIR, TRUE);
-	$class = $loader->load(function (Compiler $compiler) {
+test(function (): void {
+	$loader = new ContainerLoader(TEMP_DIR, true);
+	$class = $loader->load(function (Compiler $compiler): void {
 		$compiler->addExtension('post', new MailExtension());
 		$compiler->loadConfig(FileMock::create('
 		services:
@@ -146,7 +146,7 @@ test(function () {
 	}, 7);
 
 	/** @var Container $container */
-	$container = new $class;
+	$container = new $class();
 
 	Assert::type(FileMailer::class, $container->getByType(IMailer::class));
 });

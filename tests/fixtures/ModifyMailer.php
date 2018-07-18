@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Fixtures;
 
@@ -8,11 +8,7 @@ use Nette\Mail\Message;
 class ModifyMailer implements IMailer
 {
 
-	/**
-	 * @param Message $mail
-	 * @return void
-	 */
-	public function send(Message $mail)
+	public function send(Message $mail): void
 	{
 		$mail->setSubject('modified');
 	}

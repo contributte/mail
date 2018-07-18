@@ -26,17 +26,18 @@ composer require contributte/mail
 
 | State       | Version     | Branch   | PHP      |
 |-------------|-------------|----------|----------|
-| development | dev-master  | `master` | `>= 5.6` |
+| development | `^0.3`      | `master` | `>= 7.1` |
+| stable      | `^0.2`      | `master` | `>= 7.1` |
 | stable      | `^0.1`      | `master` | `>= 5.6` |
 
 ## Overview
 
-- [MailExtension - provides mailers / message factory](https://github.com/contributte/mail/blob/master/.docs/#mailextension)
+- [MailExtension - provides mailers / message factory](/.docs/#mailextension)
 - Mailers
-    - [FileMailer](https://github.com/contributte/mail/blob/master/.docs/#filemailer)
-    - [SendmailMailer](https://github.com/contributte/mail/blob/master/.docs/#sendmailmailer)
-    - [DevOpsMailer](https://github.com/contributte/mail/blob/master/.docs/#devopsmailer)
-    - [CompositeMailer](https://github.com/contributte/mail/blob/master/.docs/#compositemailer)
+    - [FileMailer](/.docs/#filemailer)
+    - [SendmailMailer](/.docs/#sendmailmailer)
+    - [DevOpsMailer](/.docs/#devopsmailer)
+    - [CompositeMailer](/.docs/#compositemailer)
 
 ## Maintainers
 
@@ -49,6 +50,13 @@ composer require contributte/mail
         </a>
         </br>
         <a href="https://github.com/f3l1x">Milan Felix Šulc</a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/mabar">
+            <img width="150" height="150" src="https://avatars0.githubusercontent.com/u/20974277?s=400&v=4">
+        </a>
+        </br>
+        <a href="https://github.com/mabar">Marek Bartoš</a>
       </td>
     </tr>
   <tbody>

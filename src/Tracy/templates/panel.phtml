@@ -1,36 +1,24 @@
-<?php
-
-namespace Contributte\Mail\Tracy\Template;
-
-use Tracy\Dumper;
-
-?>
-
-<h1>Contributte/Mails</h1>
+<h1>Mails</h1>
 
 <div class="tracy-inner">
     <div class="tracy-inner-container">
 
-        <?php // Display mails ?>
-        <h2>Sent mails</h2>
-
-        <?php for ($i = 0; $i < count($mails); $i++): ?>
+        <?php for ($i = 0, $iMax = count($mails); $i < $iMax; $i++): ?>
             <table>
 
                 <?php // Display mail headers ?>
                 <?php foreach ($mails[$i]->getHeaders() as $k => $v): ?>
                     <tr>
-                        <th><?php echo $k; ?></th>
-                        <td><?php echo Dumper::toHtml($v); ?></td>
+                        <th><?= $k; ?></th>
+                        <td><?= Tracy\Dumper::toHtml($v); ?></td>
                     </tr>
                 <?php endforeach; ?>
 
-                <?php // Display mail preview ?>
                 <?php if (!empty($mails[$i]->getHtmlBody())): ?>
                     <tr>
                         <td style="background-color:#ffffff;padding: 0" colspan="2">
                             <iframe style="width:100%;height:225px"
-                                    srcdoc="<?php echo str_replace('"', '&quot;', $mails[$i]->getHtmlBody()); ?>"
+                                    srcdoc="<?= str_replace('"', '&quot;', $mails[$i]->getHtmlBody()); ?>"
                             ></iframe>
                         </td>
                     </tr>
@@ -38,8 +26,7 @@ use Tracy\Dumper;
 
             </table>
 
-            <?php // Some space  after every mail ?>
-            <?php echo $i < (count($mails) - 1) ? '<br>' : ''; ?>
+            <?= $i < ($iMax - 1) ? '<br>' : ''; ?>
         <?php endfor; ?>
 
     </div>

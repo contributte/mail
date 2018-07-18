@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Mailer;
 
@@ -7,23 +7,16 @@ use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer as NSendmailMailer;
 use Nette\Utils\Validators;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 class SendmailMailer extends NSendmailMailer
 {
 
-	/** @var array */
+	/** @var callable[] function (SendmailMailer $mailer, Message $mail); */
 	public $onSend = [];
 
-	/** @var string */
+	/** @var string|null */
 	private $bounceMail;
 
-	/**
-	 * @param string $bounceMail
-	 * @return void
-	 */
-	public function setBounceMail($bounceMail)
+	public function setBounceMail(string $bounceMail): void
 	{
 		if (!Validators::isEmail($bounceMail)) {
 			throw new InvalidArgumentException(sprintf('Bounce mail %s has wrong format', $bounceMail));
@@ -33,13 +26,10 @@ class SendmailMailer extends NSendmailMailer
 
 	/**
 	 * Sends email
-	 *
-	 * @param Message $mail
-	 * @return void
 	 */
-	public function send(Message $mail)
+	public function send(Message $mail): void
 	{
-		if ($this->bounceMail) {
+		if ($this->bounceMail !== null) {
 			// Append this commands cause bounce email
 			$this->commandArgs = sprintf('-f%s', $this->bounceMail);
 		}

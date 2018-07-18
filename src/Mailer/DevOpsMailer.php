@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Mailer;
 
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class DevOpsMailer implements IMailer
 {
 
@@ -17,11 +14,7 @@ final class DevOpsMailer implements IMailer
 	/** @var string */
 	private $mail;
 
-	/**
-	 * @param IMailer $mailer
-	 * @param string $mail
-	 */
-	public function __construct(IMailer $mailer, $mail)
+	public function __construct(IMailer $mailer, string $mail)
 	{
 		$this->mailer = $mailer;
 		$this->mail = $mail;
@@ -29,15 +22,9 @@ final class DevOpsMailer implements IMailer
 
 	/**
 	 * Sends email
-	 *
-	 * @param Message $mail
-	 * @return void
 	 */
-	public function send(Message $mail)
+	public function send(Message $mail): void
 	{
-		// Append this commands cause bounce email
-		$this->commandArgs = sprintf('-f%s', $this->mail);
-
 		// Set original To, Cc, Bcc
 		$counter = 0;
 		foreach ((array) $mail->getHeader('To') as $email => $name) {
@@ -56,8 +43,8 @@ final class DevOpsMailer implements IMailer
 
 		// Override for DevOps
 		$mail->setHeader('To', [$this->mail => 'DevOps']);
-		$mail->setHeader('Cc', NULL);
-		$mail->setHeader('Bcc', NULL);
+		$mail->setHeader('Cc', null);
+		$mail->setHeader('Bcc', null);
 
 		// Delegate to original mailer
 		$this->mailer->send($mail);

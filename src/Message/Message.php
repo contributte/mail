@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Message;
 
@@ -8,10 +8,9 @@ class Message extends NMessage
 {
 
 	/**
-	 * @param array $receivers
-	 * @return void
+	 * @param string[] $receivers
 	 */
-	public function addTos(array $receivers)
+	public function addTos(array $receivers): void
 	{
 		foreach ($receivers as $email => $name) {
 			$this->addTo($email, $name);

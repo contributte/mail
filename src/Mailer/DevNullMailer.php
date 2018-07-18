@@ -1,21 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Contributte\Mail\Mailer;
 
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 
-/**
- * @author Milan Felix Sulc <sulcmil@gmail.com>
- */
 final class DevNullMailer implements IMailer
 {
 
-	/**
-	 * @param Message $mail
-	 * @return void
-	 */
-	public function send(Message $mail)
+	public function send(Message $mail): void
 	{
 		// Do nothing
 	}
