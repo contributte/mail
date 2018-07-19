@@ -5,7 +5,7 @@
 ## Content
 
 - [MailExtension - registration](#mailextension)
-- Mailers
+- [Mailers](#mailers)
     - [FileMailer](#filemailer)
     - [SendmailMailer](#sendmailmailer)
     - [DevOpsMailer](#devopsmailer)
