@@ -33,11 +33,14 @@ composer require contributte/mail
 ## Overview
 
 - [MailExtension - provides mailers / message factory](/.docs/#mailextension)
-- Mailers
+- [Mailers](/.docs/#mailers)
     - [FileMailer](/.docs/#filemailer)
     - [SendmailMailer](/.docs/#sendmailmailer)
     - [DevOpsMailer](/.docs/#devopsmailer)
     - [CompositeMailer](/.docs/#compositemailer)
+    - [DevNullMailer](/.docs/#devnullmailer)
+    - [TraceableMailer](/.docs/#traceablemailer)
+- [Message](/.docs/#message)
 
 ## Maintainers
 
