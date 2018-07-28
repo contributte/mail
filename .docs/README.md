@@ -27,7 +27,7 @@ extensions:
     
 post:
     # Required option
-    mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%)
+    mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
     
     # Optional options
     debug: %debugMode% #shows sent emails in Tracy
@@ -39,7 +39,7 @@ There is a several implementation of mailers.
 
 ```yaml
 post:
-    mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%)
+    mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
     
     mailer:
       class: Contributte\Mail\Mailer\SendmailMailer
@@ -82,7 +82,7 @@ Extension has also optional `debug` option that show Tracy panel with sent mails
 Stores emails at your file system.
 
 ```php
-$mailer = new FileMailer(__DIR__ . '/temp');
+$mailer = new FileMailer(__DIR__ . '/temp/mails');
 ```
 
 ### SendmailMailer
@@ -123,7 +123,7 @@ Combine more mailers together.
 
 ```php
 $mailer = new CompositeMailer([
-    new FileMailer(__DIR__ . '/temp'),
+    new FileMailer(__DIR__ . '/temp/mails'),
     new DevOpsMailer('dev@contributte.org'),
 ]);
 ```
