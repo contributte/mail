@@ -48,7 +48,12 @@ post:
         
     mailer: Contributte\Mail\Mailer\DevOpsMailer(dev@contributte.org)
     
-    mailer: Contributte\Mail\Mailer\CompositeMailer([@mailer1, @mailer2])
+    mailer:
+      class: Contributte\Mail\Mailer\CompositeMailer
+      arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
+      setup:
+        - add(@mailer1)
+        - add(@mailer2)
 ```
 
 As you can see, extension has two modes:
@@ -122,10 +127,9 @@ $mailer = new DevNullMailer();
 Combine more mailers together.
 
 ```php
-$mailer = new CompositeMailer([
-    new FileMailer(__DIR__ . '/temp/mails'),
-    new DevOpsMailer('dev@contributte.org'),
-]);
+$mailer = new CompositeMailer($silent = false); // If silent is enabled then exceptions from mailers are catched
+$mailer->add(new FileMailer(__DIR__ . '/temp/mails'));
+$mailer->add(new DevOpsMailer('dev@contributte.org'));
 ```
 
 ### TraceableMailer
