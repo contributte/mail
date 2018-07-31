@@ -16,7 +16,7 @@ final class CompositeMailer implements IMailer
 	/** @var bool */
 	private $silent;
 
-	public function __construct(bool $silent)
+	public function __construct(bool $silent = false)
 	{
 		$this->silent = $silent;
 	}
