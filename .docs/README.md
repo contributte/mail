@@ -108,7 +108,7 @@ $mailer->onSend[] = function($mailer, $message) {}
 
 ### DevOpsMailer
 
-Sends all emails to our defined address but also preserving and sending emails with their original attributes.
+Sends all emails to one address with preserved original attributes.
 
 ```php
 $mailer = new DevOpsMailer('dev@contributte.org');
