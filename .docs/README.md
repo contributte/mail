@@ -16,11 +16,11 @@
 
 ## MailExtension
 
-You have to manually register this extension at first place.
+You have to manually register this extension in the first place.
 
-Be careful `nette/mail` is registered by default under key `mail`, that's why we have picked key `post`.
+Be careful, `nette/mail` is registered by default under the `mail` key, that's why we have picked the `post` key.
 
-Simple example
+Simple example:
 ```yaml
 extensions:
     post: Contributte\Mail\DI\MailExtension
@@ -35,7 +35,7 @@ post:
 
 ```
 
-There is a several implementation of mailers.
+There are several mailer implementations:
 
 ```yaml
 post:
@@ -56,7 +56,7 @@ post:
         - add(@mailer2)
 ```
 
-As you can see, extension has two modes:
+As you can see, the extension has two modes:
 
 ```yaml
 post:
@@ -65,26 +65,26 @@ post:
   mode: override
 ```
 
-- standalone (by default)
+- standalone (default)
 - override 
 
 ### Standalone 
 
-It disables autowiring of `nette.mailer` and `mail.mailer`.
+Disables autowiring of both `nette.mailer` and `mail.mailer`.
 
 ### Override
 
-It drops `nette.mailer`, `mail.mailer` services and alias them to `post.mailer`.
+Drops `nette.mailer` and `mail.mailer` services and aliases them to `post.mailer`.
 
 ### Debug
 
-Extension has also optional `debug` option that show Tracy panel with sent mails headers and their full preview.
+The extension has also optional `debug` option that shows a Tracy panel with sent mail headers and full preview.
 
 ## Mailers
 
 ### FileMailer
 
-Stores emails at your file system.
+Stores emails on your file system.
 
 ```php
 $mailer = new FileMailer(__DIR__ . '/temp/mails');
@@ -92,12 +92,12 @@ $mailer = new FileMailer(__DIR__ . '/temp/mails');
 
 ### SendmailMailer
 
-This is default `Nette\Mail\SendmailMailer` with some extra methods and fields.
+This is the default `Nette\Mail\SendmailMailer` with some extra methods and fields.
 
 **Bounce mail**
 
 ```php
-$mailer->setBounceMail(mail@contributte.org)
+$mailer->setBounceMail('mail@contributte.org')
 ```
 
 **Events**
@@ -116,7 +116,7 @@ $mailer = new DevOpsMailer('dev@contributte.org');
 
 ### DevNullMailer
 
-It does literally nothing.
+Does literally nothing.
 
 ```php
 $mailer = new DevNullMailer();
@@ -124,20 +124,20 @@ $mailer = new DevNullMailer();
 
 ### CompositeMailer
 
-Combine more mailers together.
+Combines more mailers together.
 
 ```php
-$mailer = new CompositeMailer($silent = false); // If silent is enabled then exceptions from mailers are catched
+$mailer = new CompositeMailer($silent = false); // If silent is enabled then exceptions from mailers are caught
 $mailer->add(new FileMailer(__DIR__ . '/temp/mails'));
 $mailer->add(new DevOpsMailer('dev@contributte.org'));
 ```
 
 ### TraceableMailer
 
-Internally wraps your mailer and displays sent mails when `debug` option is true Tracy panel. 
+Internally wraps your mailer and displays sent mails when the `debug` option is set to `true` in a Tracy panel. 
 
 ## Message
 
 ### `Message::addTos(array $tos)`
 
-This is wrapper that accepts array of receivers and call `addTo` with each of them.
+This wrapper accepts an array of recipients and calls `addTo` on each one of them.
