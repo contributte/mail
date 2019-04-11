@@ -42,10 +42,6 @@ class MailExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->config;
 
-		if (!in_array($config->mode, self::MODES, true)) {
-			throw new InvalidArgumentException(sprintf('Invalid mode "%s", allowed are [ %s ]', $config['mode'], implode(' | ', self::MODES)));
-		}
-
 		if ($config->mailer === null) {
 			throw new InvalidStateException(sprintf('"%s" must be configured.', $this->prefix('mailer')));
 		}
