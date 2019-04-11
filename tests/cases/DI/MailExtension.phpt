@@ -14,6 +14,7 @@ use Nette\Bridges\MailDI\MailExtension as NetteMailExtension;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
+use Nette\DI\InvalidConfigurationException;
 use Nette\Mail\IMailer;
 use Nette\Mail\SendmailMailer;
 use Tester\Assert;
@@ -125,7 +126,7 @@ test(function (): void {
 			mode: foobar
 		', 'neon'));
 		}, 6);
-	}, InvalidArgumentException::class, 'Invalid mode "foobar", allowed are [ standalone | override ]');
+	}, InvalidConfigurationException::class, 'The option \'post › mode\' expects to be \'standalone\'|\'override\', \'foobar\' given.');
 });
 
 test(function (): void {
