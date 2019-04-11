@@ -29,7 +29,7 @@ class MailExtension extends CompilerExtension
 	{
 		return Expect::structure([
 			'mode' => Expect::anyOf(...self::MODES)->default(self::MODE_STANDALONE),
-			'mailer' => Expect::type('string|'.Nette\DI\Definitions\Statement::class),
+			'mailer' => Expect::type('string|'.Nette\DI\Definitions\Statement::class)->dynamic(),
 			'debug' => Expect::bool(interface_exists(Tracy\IBarPanel::class))->default(false),
 		]);
 	}
