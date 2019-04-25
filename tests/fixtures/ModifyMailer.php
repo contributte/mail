@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Fixtures;
+namespace Tests\Fixtures;
 
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;

@@ -1,13 +1,12 @@
 <?php declare(strict_types = 1);
 
-namespace Tests\DI;
+namespace Tests\Cases\DI;
 
 /**
  * Test: DI\MailExtension
  */
 
 use Contributte\Mail\DI\MailExtension;
-use Contributte\Mail\Exception\Logic\InvalidArgumentException;
 use Contributte\Mail\Mailer\FileMailer;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Nette\Bridges\MailDI\MailExtension as NetteMailExtension;

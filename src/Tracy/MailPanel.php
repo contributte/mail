@@ -28,7 +28,9 @@ final class MailPanel implements IBarPanel
 		}
 
 		ob_start();
+
 		require 'templates/tab.phtml';
+
 		return (string) ob_get_clean();
 	}
 

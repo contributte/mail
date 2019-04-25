@@ -17,6 +17,7 @@ final class FileMailer implements IMailer
 		if (!is_dir($path) && !mkdir($path, 0777, true)) {
 			throw new RuntimeException(sprintf('Directory "%s" was not created', $path));
 		}
+
 		$this->path = realpath($path) . DIRECTORY_SEPARATOR;
 	}
 

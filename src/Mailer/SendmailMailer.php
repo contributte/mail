@@ -21,6 +21,7 @@ class SendmailMailer extends NSendmailMailer
 		if (!Validators::isEmail($bounceMail)) {
 			throw new InvalidArgumentException(sprintf('Bounce mail %s has wrong format', $bounceMail));
 		}
+
 		$this->bounceMail = $bounceMail;
 	}
 

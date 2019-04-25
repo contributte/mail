@@ -2,17 +2,21 @@
 
 namespace Contributte\Mail\DI;
 
-use Contributte\Mail\Exception\Logic\InvalidArgumentException;
 use Contributte\Mail\Exception\Logic\InvalidStateException;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Contributte\Mail\Message\IMessageFactory;
 use Contributte\Mail\Tracy\MailPanel;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
 use Nette\PhpGenerator\ClassType;
-use Nette;
 use Nette\Schema\Expect;
-use Tracy;
+use Nette\Schema\Schema;
+use stdClass;
+use Tracy\IBarPanel;
 
+/**
+ * @property-read stdClass $config
+ */
 class MailExtension extends CompilerExtension
 {
 
@@ -25,12 +29,12 @@ class MailExtension extends CompilerExtension
 		self::MODE_OVERRIDE,
 	];
 
-	public function getConfigSchema(): Nette\Schema\Schema
+	public function getConfigSchema(): Schema
 	{
 		return Expect::structure([
 			'mode' => Expect::anyOf(...self::MODES)->default(self::MODE_STANDALONE),
-			'mailer' => Expect::type('string|'.Nette\DI\Definitions\Statement::class)->dynamic(),
-			'debug' => Expect::bool(interface_exists(Tracy\IBarPanel::class))->default(false),
+			'mailer' => Expect::type('string|' . Statement::class)->dynamic(),
+			'debug' => Expect::bool(interface_exists(IBarPanel::class))->default(false),
 		]);
 	}
 
@@ -66,7 +70,7 @@ class MailExtension extends CompilerExtension
 				->addSetup('setTraceableMailer', [$traceableMailer]);
 		} else {
 			// Load mailer
-            $this->loadDefinitionsFromConfig(['mailer' => $config->mailer]);
+			$this->loadDefinitionsFromConfig(['mailer' => $config->mailer]);
 		}
 	}
 
@@ -102,6 +106,7 @@ class MailExtension extends CompilerExtension
 	public function afterCompile(ClassType $class): void
 	{
 		$config = $this->config;
+
 		if ($config->debug === true) {
 			$initialize = $class->getMethod('initialize');
 			$initialize->addBody(

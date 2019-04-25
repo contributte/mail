@@ -1,15 +1,15 @@
 <?php declare(strict_types = 1);
 
-namespace Tests\Mailer;
+namespace Tests\Cases\Mailer;
 
 /**
  * Test: Mailer\CompositeMailer
  */
 
 use Contributte\Mail\Mailer\CompositeMailer;
-use Fixtures\ModifyMailer;
 use Nette\Mail\Message;
 use Tester\Assert;
+use Tests\Fixtures\ModifyMailer;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
