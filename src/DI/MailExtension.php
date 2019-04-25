@@ -7,9 +7,11 @@ use Contributte\Mail\Exception\Logic\InvalidStateException;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Contributte\Mail\Message\IMessageFactory;
 use Contributte\Mail\Tracy\MailPanel;
-use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
+use Nette;
+use Nette\Schema\Expect;
+use Tracy;
 
 class MailExtension extends CompilerExtension
 {
@@ -23,12 +25,14 @@ class MailExtension extends CompilerExtension
 		self::MODE_OVERRIDE,
 	];
 
-	/** @var mixed[] */
-	private $defaults = [
-		'mode' => self::MODE_STANDALONE,
-		'mailer' => null,
-		'debug' => false,
-	];
+	public function getConfigSchema(): Nette\Schema\Schema
+	{
+		return Expect::structure([
+			'mode' => Expect::anyOf(...self::MODES)->default(self::MODE_STANDALONE),
+			'mailer' => Expect::type('string|'.Nette\DI\Definitions\Statement::class)->dynamic(),
+			'debug' => Expect::bool(interface_exists(Tracy\IBarPanel::class))->default(false),
+		]);
+	}
 
 	/**
 	 * Register services
@@ -36,24 +40,21 @@ class MailExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->config;
 
-		if (!in_array($config['mode'], self::MODES, true)) {
-			throw new InvalidArgumentException(sprintf('Invalid mode "%s", allowed are [ %s ]', $config['mode'], implode(' | ', self::MODES)));
-		}
-
-		if ($config['mailer'] === null) {
+		if ($config->mailer === null) {
 			throw new InvalidStateException(sprintf('"%s" must be configured.', $this->prefix('mailer')));
 		}
 
-		$builder->addDefinition($this->prefix('messageFactory'))
+		$builder->addFactoryDefinition($this->prefix('messageFactory'))
 			->setImplement(IMessageFactory::class);
 
 		// Wrap original mailer by TraceableMailer
-		if ($config['debug'] === true) {
+		if ($config->debug === true) {
 			$mailer = $builder->addDefinition($this->prefix('mailer.original'))
 				->setAutowired(false);
-			Compiler::loadDefinition($mailer, $config['mailer']);
+
+			$this->loadDefinitionsFromConfig(['mailer.original' => $config->mailer]);
 
 			$traceableMailer = $builder->addDefinition($this->prefix('mailer'))
 				->setType(TraceableMailer::class)
@@ -65,9 +66,7 @@ class MailExtension extends CompilerExtension
 				->addSetup('setTraceableMailer', [$traceableMailer]);
 		} else {
 			// Load mailer
-			$mailer = $builder->addDefinition($this->prefix('mailer'))
-				->setType($config['mailer']);
-			Compiler::loadDefinition($mailer, $config['mailer']);
+            $this->loadDefinitionsFromConfig(['mailer' => $config->mailer]);
 		}
 	}
 
@@ -77,20 +76,20 @@ class MailExtension extends CompilerExtension
 	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->config;
 
 		// Handle nette/mail configuration
 		if ($this->name === 'mail') {
 			return;
 		}
 
-		if ($config['mode'] === self::MODE_STANDALONE) {
+		if ($config->mode === self::MODE_STANDALONE) {
 			// Disable autowiring of nette.mailer
 			if ($builder->hasDefinition('mail.mailer')) {
 				$builder->getDefinition('mail.mailer')
 					->setAutowired(false);
 			}
-		} elseif ($config['mode'] === self::MODE_OVERRIDE) {
+		} elseif ($config->mode === self::MODE_OVERRIDE) {
 			// Remove nette.mailer and replace with our mailer
 			$builder->removeDefinition('mail.mailer');
 			$builder->addAlias('mail.mailer', $this->prefix('mailer'));
@@ -102,8 +101,8 @@ class MailExtension extends CompilerExtension
 	 */
 	public function afterCompile(ClassType $class): void
 	{
-		$config = $this->validateConfig($this->defaults);
-		if ($config['debug'] === true) {
+		$config = $this->config;
+		if ($config->debug === true) {
 			$initialize = $class->getMethod('initialize');
 			$initialize->addBody(
 				'$this->getService(?)->addPanel($this->getService(?));',
