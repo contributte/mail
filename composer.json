@@ -30,6 +30,9 @@
     "nette/di": "~3.0.0",
     "tracy/tracy": "~2.6.2"
   },
+  "conflict": {
+    "nette/di": "<=3.0.0-RC"
+  },
   "suggest": {
     "nette/di": "to use MailerExtension[CompilerExtension]"
   },
