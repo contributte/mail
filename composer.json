@@ -21,13 +21,14 @@
     "nette/utils": "~3.0.0"
   },
   "require-dev": {
+    "nette/di": "~3.0.0",
     "ninjify/nunjuck": "^0.2.0",
     "ninjify/qa": "^0.9.0",
+    "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan-deprecation-rules": "^0.11",
     "phpstan/phpstan-nette": "^0.11",
     "phpstan/phpstan-shim": "^0.11",
     "phpstan/phpstan-strict-rules": "^0.11",
-    "nette/di": "~3.0.0",
     "tracy/tracy": "~2.6.2"
   },
   "conflict": {
@@ -35,11 +36,6 @@
   },
   "suggest": {
     "nette/di": "to use MailerExtension[CompilerExtension]"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "config": {
-    "sort-packages": true
   },
   "autoload": {
     "psr-4": {
@@ -51,6 +47,11 @@
       "Tests\\Cases\\": "tests/cases",
       "Tests\\Fixtures\\": "tests/fixtures"
     }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {
