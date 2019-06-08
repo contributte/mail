@@ -1,10 +1,11 @@
-# Mail
+# Contributte Mail
 
-:sparkles: Extra contribution to [`nette/mail`](https://github.com/nette/mail).
+Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 
 ## Content
 
-- [MailExtension - registration](#mailextension)
+- [Setup](#setup)
+- [MailExtension](#mailextension)
 - [Mailers](#mailers)
     - [FileMailer](#filemailer)
     - [SendmailMailer](#sendmailmailer)
@@ -13,6 +14,12 @@
     - [DevNullMailer](#devnullmailer)
     - [TraceableMailer](#traceablemailer)
 - [Message](#message)
+
+## Setup
+
+```bash
+composer require contributte/mail
+```
 
 ## MailExtension
 
@@ -97,13 +104,13 @@ This is the default `Nette\Mail\SendmailMailer` with some extra methods and fiel
 **Bounce mail**
 
 ```php
-$mailer->setBounceMail('mail@contributte.org')
+$mailer->setBounceMail('mail@contributte.org');
 ```
 
 **Events**
 
 ```php
-$mailer->onSend[] = function($mailer, $message) {}
+$mailer->onSend[] = function($mailer, $message) {};
 ```
 
 ### DevOpsMailer
