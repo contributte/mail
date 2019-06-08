@@ -2,7 +2,6 @@
 
 namespace Contributte\Mail\DI;
 
-use Contributte\Mail\Exception\Logic\InvalidStateException;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Contributte\Mail\Message\IMessageFactory;
 use Contributte\Mail\Tracy\MailPanel;
@@ -12,7 +11,6 @@ use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use stdClass;
-use Tracy\IBarPanel;
 
 /**
  * @property-read stdClass $config
@@ -33,8 +31,8 @@ class MailExtension extends CompilerExtension
 	{
 		return Expect::structure([
 			'mode' => Expect::anyOf(...self::MODES)->default(self::MODE_STANDALONE),
-			'mailer' => Expect::type('string|' . Statement::class)->dynamic(),
-			'debug' => Expect::bool(interface_exists(IBarPanel::class))->default(false),
+			'mailer' => Expect::type('string|' . Statement::class)->dynamic()->required(),
+			'debug' => Expect::bool(false),
 		]);
 	}
 
@@ -46,15 +44,11 @@ class MailExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 		$config = $this->config;
 
-		if ($config->mailer === null) {
-			throw new InvalidStateException(sprintf('"%s" must be configured.', $this->prefix('mailer')));
-		}
-
 		$builder->addFactoryDefinition($this->prefix('messageFactory'))
 			->setImplement(IMessageFactory::class);
 
 		// Wrap original mailer by TraceableMailer
-		if ($config->debug === true) {
+		if ($config->debug) {
 			$mailer = $builder->addDefinition($this->prefix('mailer.original'))
 				->setAutowired(false);
 
