@@ -31,7 +31,7 @@ class MailExtension extends CompilerExtension
 	{
 		return Expect::structure([
 			'mode' => Expect::anyOf(...self::MODES)->default(self::MODE_STANDALONE),
-			'mailer' => Expect::type('string|' . Statement::class)->dynamic()->required(),
+			'mailer' => Expect::type('array|string|' . Statement::class)->dynamic()->required(),
 			'debug' => Expect::bool(false),
 		]);
 	}
