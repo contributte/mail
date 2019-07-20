@@ -2,19 +2,19 @@
 
 namespace Contributte\Mail\Mailer;
 
-use Nette\Mail\IMailer;
+use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class DevOpsMailer implements IMailer
+final class DevOpsMailer implements Mailer
 {
 
-	/** @var IMailer */
+	/** @var Mailer */
 	private $mailer;
 
 	/** @var string */
 	private $mail;
 
-	public function __construct(IMailer $mailer, string $mail)
+	public function __construct(Mailer $mailer, string $mail)
 	{
 		$this->mailer = $mailer;
 		$this->mail = $mail;

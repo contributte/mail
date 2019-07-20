@@ -3,10 +3,10 @@
 namespace Contributte\Mail\Mailer;
 
 use Contributte\Mail\Exception\RuntimeException;
-use Nette\Mail\IMailer;
+use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class FileMailer implements IMailer
+final class FileMailer implements Mailer
 {
 
 	/** @var string */
