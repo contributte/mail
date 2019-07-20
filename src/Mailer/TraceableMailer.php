@@ -2,19 +2,19 @@
 
 namespace Contributte\Mail\Mailer;
 
-use Nette\Mail\IMailer;
+use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class TraceableMailer implements IMailer
+final class TraceableMailer implements Mailer
 {
 
-	/** @var IMailer */
+	/** @var Mailer */
 	private $mailer;
 
 	/** @var Message[] */
 	private $mails = [];
 
-	public function __construct(IMailer $mailer)
+	public function __construct(Mailer $mailer)
 	{
 		$this->mailer = $mailer;
 	}

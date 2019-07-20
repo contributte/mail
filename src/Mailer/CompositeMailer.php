@@ -2,15 +2,14 @@
 
 namespace Contributte\Mail\Mailer;
 
-use Exception;
-use Nette\Mail\IMailer;
+use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 use Throwable;
 
-final class CompositeMailer implements IMailer
+final class CompositeMailer implements Mailer
 {
 
-	/** @var IMailer[] */
+	/** @var Mailer[] */
 	private $mailers = [];
 
 	/** @var bool */
@@ -21,7 +20,7 @@ final class CompositeMailer implements IMailer
 		$this->silent = $silent;
 	}
 
-	public function add(IMailer $mailer): void
+	public function add(Mailer $mailer): void
 	{
 		$this->mailers[] = $mailer;
 	}

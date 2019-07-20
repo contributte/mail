@@ -2,10 +2,10 @@
 
 namespace Contributte\Mail\Mailer;
 
-use Nette\Mail\IMailer;
+use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class DevNullMailer implements IMailer
+final class DevNullMailer implements Mailer
 {
 
 	public function send(Message $mail): void
