@@ -145,6 +145,28 @@ Internally wraps your mailer and displays sent mails when the `debug` option is 
 
 ## Message
 
+### MessageFactory
+
+DIC-generated `Message` factory
+
+```php
+use Contributte\Mail\Message\IMessageFactory;
+
+class Foo
+{
+	
+    /** @var IMessageFactory @inject */
+    public $messageFactory;
+
+    public function sendMail(): void 
+    {
+        $message = $this->messageFactory->create();
+        // ...
+    }
+	
+}
+```
+
 ### `Message::addTos(array $tos)`
 
 This wrapper accepts an array of recipients and calls `addTo` on each one of them.
