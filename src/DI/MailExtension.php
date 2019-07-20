@@ -2,10 +2,12 @@
 
 namespace Contributte\Mail\DI;
 
+use Contributte\DI\Helper\ExtensionDefinitionsHelper;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Contributte\Mail\Message\IMessageFactory;
 use Contributte\Mail\Tracy\MailPanel;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Definition;
 use Nette\DI\Definitions\Statement;
 use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;
@@ -31,7 +33,7 @@ class MailExtension extends CompilerExtension
 	{
 		return Expect::structure([
 			'mode' => Expect::anyOf(...self::MODES)->default(self::MODE_STANDALONE),
-			'mailer' => Expect::type('string|' . Statement::class)->dynamic()->required(),
+			'mailer' => Expect::anyOf(Expect::string(), Expect::array(), Expect::type(Statement::class))->required(),
 			'debug' => Expect::bool(false),
 		]);
 	}
@@ -43,20 +45,22 @@ class MailExtension extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->config;
+		$definitionsHelper = new ExtensionDefinitionsHelper($this->compiler);
 
 		$builder->addFactoryDefinition($this->prefix('messageFactory'))
 			->setImplement(IMessageFactory::class);
 
 		// Wrap original mailer by TraceableMailer
 		if ($config->debug) {
-			$mailer = $builder->addDefinition($this->prefix('mailer.original'))
-				->setAutowired(false);
+			$originalMailer = $definitionsHelper->getDefinitionFromConfig($config->mailer, $this->prefix('mailer.original'));
 
-			$this->loadDefinitionsFromConfig(['mailer.original' => $config->mailer]);
+			if ($originalMailer instanceof Definition) {
+				$originalMailer->setAutowired(false);
+			}
 
 			$traceableMailer = $builder->addDefinition($this->prefix('mailer'))
 				->setType(TraceableMailer::class)
-				->setArguments([$mailer]);
+				->setArguments([$originalMailer]);
 
 			// Mail panel for tracy
 			$builder->addDefinition($this->prefix('panel'))
@@ -64,7 +68,7 @@ class MailExtension extends CompilerExtension
 				->addSetup('setTraceableMailer', [$traceableMailer]);
 		} else {
 			// Load mailer
-			$this->loadDefinitionsFromConfig(['mailer' => $config->mailer]);
+			$definitionsHelper->getDefinitionFromConfig($config->mailer, $this->prefix('mailer'));
 		}
 	}
 

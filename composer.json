@@ -21,7 +21,7 @@
     "nette/utils": "~3.0.0"
   },
   "require-dev": {
-    "nette/di": "~3.0.0",
+    "contributte/di": "^0.4.0",
     "ninjify/nunjuck": "^0.2.0",
     "ninjify/qa": "^0.9.0",
     "phpstan/extension-installer": "^1.0",
@@ -31,11 +31,8 @@
     "phpstan/phpstan-strict-rules": "^0.11",
     "tracy/tracy": "~2.6.2"
   },
-  "conflict": {
-    "nette/di": "<=3.0.0-RC"
-  },
   "suggest": {
-    "nette/di": "to use MailerExtension[CompilerExtension]"
+    "contributte/di": "to use MailerExtension[CompilerExtension]"
   },
   "autoload": {
     "psr-4": {
