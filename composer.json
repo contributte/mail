@@ -18,7 +18,7 @@
   "require": {
     "php": "^7.2",
     "nette/mail": "~3.1.0",
-    "nette/utils": "~3.0.0"
+    "nette/utils": "~3.0.0|~3.1.0"
   },
   "require-dev": {
     "contributte/di": "^0.4.0",
@@ -29,7 +29,7 @@
     "phpstan/phpstan-nette": "^0.11",
     "phpstan/phpstan-shim": "^0.11",
     "phpstan/phpstan-strict-rules": "^0.11",
-    "tracy/tracy": "~2.6.2"
+    "tracy/tracy": "~2.6.2|~2.7.0"
   },
   "suggest": {
     "contributte/di": "to use MailerExtension[CompilerExtension]"
