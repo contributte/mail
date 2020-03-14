@@ -24,11 +24,11 @@
     "contributte/di": "^0.4.0",
     "ninjify/nunjuck": "^0.2.0",
     "ninjify/qa": "^0.9.0",
+    "phpstan/phpstan": "^0.12.2",
     "phpstan/extension-installer": "^1.0",
-    "phpstan/phpstan-deprecation-rules": "^0.11",
-    "phpstan/phpstan-nette": "^0.11",
-    "phpstan/phpstan-shim": "^0.11",
-    "phpstan/phpstan-strict-rules": "^0.11",
+    "phpstan/phpstan-deprecation-rules": "^0.12.0",
+    "phpstan/phpstan-nette": "^0.12.0",
+    "phpstan/phpstan-strict-rules": "^0.12.0",
     "tracy/tracy": "~2.6.2|~2.7.0"
   },
   "suggest": {
