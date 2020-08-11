@@ -30,62 +30,38 @@ Be careful, `nette/mail` is registered by default under the `mail` key, that's w
 Simple example:
 ```yaml
 extensions:
+    mail: Nette\Bridges\MailDI\MailExtension
     post: Contributte\Mail\DI\MailExtension
-    
-post:
-    # Required option
-    mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
-    
-    # Optional options
-    debug: %debugMode% #shows sent emails in Tracy
-    mode: standalone
 
+post:
+    # Trace emails in Tracy
+    trace: %debugMode%
 ```
 
 There are several mailer implementations:
 
 ```yaml
-post:
-    mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
-    
-    mailer:
+services:
+    # Dump mails in folder
+    mail.mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
+
+    # Polished sendmail
+    mail.mailer:
       class: Contributte\Mail\Mailer\SendmailMailer
       setup:
         - setBounceMail(mail@contributte.org)
-        
-    mailer: Contributte\Mail\Mailer\DevOpsMailer(dev@contributte.org)
-    
-    mailer:
+
+    # Redirect all mails to one address
+    mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(dev@contributte.org)
+
+    # Send mails to multiple mailers
+    mail.mailer:
       class: Contributte\Mail\Mailer\CompositeMailer
       arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
       setup:
         - add(@mailer1)
         - add(@mailer2)
 ```
-
-As you can see, the extension has two modes:
-
-```yaml
-post:
-  mode: standalone
-  # OR
-  mode: override
-```
-
-- standalone (default)
-- override 
-
-### Standalone 
-
-Disables autowiring of both `nette.mailer` and `mail.mailer`.
-
-### Override
-
-Drops `nette.mailer` and `mail.mailer` services and aliases them to `post.mailer`.
-
-### Debug
-
-The extension has also optional `debug` option that shows a Tracy panel with sent mail headers and full preview.
 
 ## Mailers
 
@@ -141,7 +117,7 @@ $mailer->add(new DevOpsMailer('dev@contributte.org'));
 
 ### TraceableMailer
 
-Internally wraps your mailer and displays sent mails when the `debug` option is set to `true` in a Tracy panel. 
+Internally wraps your mailer and displays sent mails when the `trace` option is set to `true` in a Tracy panel.
 
 ## Message
 
@@ -154,16 +130,16 @@ use Contributte\Mail\Message\IMessageFactory;
 
 class Foo
 {
-	
+
     /** @var IMessageFactory @inject */
     public $messageFactory;
 
-    public function sendMail(): void 
+    public function sendMail(): void
     {
         $message = $this->messageFactory->create();
         // ...
     }
-	
+
 }
 ```
 
