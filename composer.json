@@ -21,9 +21,9 @@
     "nette/utils": "~3.0.0|~3.1.0"
   },
   "require-dev": {
-    "contributte/di": "^0.4.0",
-    "ninjify/nunjuck": "^0.3.0",
-    "ninjify/qa": "^0.10.0",
+    "nette/di": "^3.0.4",
+    "ninjify/nunjuck": "^0.4.0",
+    "ninjify/qa": "^0.11.0",
     "phpstan/phpstan": "^0.12.2",
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan-deprecation-rules": "^0.12.0",
