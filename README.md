@@ -31,7 +31,7 @@ Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 
 | State       | Version | Branch   | Nette | PHP     |
 |-------------|---------|----------|-------|---------|
-| dev         | `^0.6`  | `master` | 3.0+  | `^7.2`  |
+| dev         | `^0.6`  | `master` | 3.0+  | `>=7.2`  |
 | stable      | `^0.5`  | `master` | 3.0+  | `^7.2`  |
 | stable      | `^0.3`  | `master` | 2.4   | `>=7.1` |
 
