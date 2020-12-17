@@ -22,14 +22,14 @@
   },
   "require-dev": {
     "nette/di": "^3.0.4",
-    "ninjify/nunjuck": "^0.4.0",
-    "ninjify/qa": "^0.11.0",
+    "ninjify/nunjuck": "^0.4",
+    "ninjify/qa": "^0.12",
     "phpstan/phpstan": "^0.12.2",
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan-deprecation-rules": "^0.12.0",
     "phpstan/phpstan-nette": "^0.12.0",
     "phpstan/phpstan-strict-rules": "^0.12.0",
-    "tracy/tracy": "~2.6.2|~2.7.0"
+    "tracy/tracy": "^2.6.2"
   },
   "suggest": {
     "contributte/di": "to use MailerExtension[CompilerExtension]"

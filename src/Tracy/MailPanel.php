@@ -39,6 +39,7 @@ final class MailPanel implements IBarPanel
 	 */
 	public function getPanel(): string
 	{
+		// phpcs:disable
 		$mails = $this->traceableMailer->getMails();
 		ob_start();
 		require 'templates/panel.phtml';
