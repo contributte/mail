@@ -1,10 +1,7 @@
-.PHONY: qa cs csf phpstan tests coverage
+.PHONY: install qa cs csf phpstan tests coverage-clover coverage-html
 
-all:
-	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
-
-install: composer.json composer.lock
-	composer install
+install:
+	composer update
 
 qa: phpstan cs
 
@@ -20,5 +17,8 @@ phpstan:
 tests:
 	vendor/bin/tester -s -p php --colors 1 -C tests/cases
 
-coverage:
+coverage-clover:
 	vendor/bin/tester -s -p phpdbg --colors 1 -C --coverage ./coverage.xml --coverage-src ./src tests/cases
+
+coverage-html:
+	vendor/bin/tester -s -p phpdbg --colors 1 -C --coverage ./coverage.html --coverage-src ./src tests/cases
