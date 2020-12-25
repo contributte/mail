@@ -1,14 +1,14 @@
-![](https://heatbadger.now.sh/github/readme/contributte/latte/)
+![](https://heatbadger.now.sh/github/readme/contributte/mail/)
 
 <p align=center>
-  <a href="https://github.com/contributte/latte/actions"><img src="https://badgen.net/github/checks/contributte/latte/master?cache=300"></a>
-  <a href="https://coveralls.io/r/contributte/latte"><img src="https://badgen.net/coveralls/c/github/contributte/latte?cache=300"></a>
-  <a href="https://packagist.org/packages/contributte/latte"><img src="https://badgen.net/packagist/dm/contributte/latte"></a>
-  <a href="https://packagist.org/packages/contributte/latte"><img src="https://badgen.net/packagist/v/contributte/latte"></a>
+  <a href="https://github.com/contributte/mail/actions"><img src="https://badgen.net/github/checks/contributte/mail/master?cache=300"></a>
+  <a href="https://coveralls.io/r/contributte/mail"><img src="https://badgen.net/coveralls/c/github/contributte/mail?cache=300"></a>
+  <a href="https://packagist.org/packages/contributte/mail"><img src="https://badgen.net/packagist/dm/contributte/mail"></a>
+  <a href="https://packagist.org/packages/contributte/mail"><img src="https://badgen.net/packagist/v/contributte/mail"></a>
 </p>
 <p align=center>
-  <a href="https://packagist.org/packages/contributte/latte"><img src="https://badgen.net/packagist/php/contributte/latte"></a>
-  <a href="https://github.com/contributte/latte"><img src="https://badgen.net/github/license/contributte/latte"></a>
+  <a href="https://packagist.org/packages/contributte/mail"><img src="https://badgen.net/packagist/php/contributte/mail"></a>
+  <a href="https://github.com/contributte/mail"><img src="https://badgen.net/github/license/contributte/mail"></a>
   <a href="https://bit.ly/ctteg"><img src="https://badgen.net/badge/support/gitter/cyan"></a>
   <a href="https://bit.ly/cttfo"><img src="https://badgen.net/badge/support/forum/yellow"></a>
   <a href="https://contributte.org/partners.html"><img src="https://badgen.net/badge/sponsor/donations/F96854"></a>
@@ -20,10 +20,10 @@ Website ðŸš€ <a href="https://contributte.org">contributte.org</a> | Contact ðŸ‘
 
 ## Usage
 
-To install latest version of `contributte/latte` use [Composer](https://getcomposer.com).
+To install latest version of `contributte/mail` use [Composer](https://getcomposer.com).
 
 ```
-composer install contributte/latte
+composer install contributte/mail
 ```
 
 ## Documentation
