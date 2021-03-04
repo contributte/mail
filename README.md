@@ -22,8 +22,8 @@ Website ðŸš€ <a href="https://contributte.org">contributte.org</a> | Contact ðŸ‘
 
 To install latest version of `contributte/mail` use [Composer](https://getcomposer.org).
 
-```
-$ composer require contributte/mail
+```bash
+composer require contributte/mail
 ```
 
 ## Documentation
