@@ -7,12 +7,12 @@ Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 - [Setup](#setup)
 - [MailExtension](#mailextension)
 - [Mailers](#mailers)
-    - [FileMailer](#filemailer)
-    - [SendmailMailer](#sendmailmailer)
-    - [DevOpsMailer](#devopsmailer)
-    - [CompositeMailer](#compositemailer)
-    - [DevNullMailer](#devnullmailer)
-    - [TraceableMailer](#traceablemailer)
+	- [FileMailer](#filemailer)
+	- [SendmailMailer](#sendmailmailer)
+	- [DevOpsMailer](#devopsmailer)
+	- [CompositeMailer](#compositemailer)
+	- [DevNullMailer](#devnullmailer)
+	- [TraceableMailer](#traceablemailer)
 - [Message](#message)
 
 ## Setup
@@ -28,39 +28,40 @@ You have to manually register this extension in the first place.
 Be careful, `nette/mail` is registered by default under the `mail` key, that's why we have picked the `post` key.
 
 Simple example:
-```yaml
+
+```neon
 extensions:
-    mail: Nette\Bridges\MailDI\MailExtension
-    post: Contributte\Mail\DI\MailExtension
+	mail: Nette\Bridges\MailDI\MailExtension
+	post: Contributte\Mail\DI\MailExtension
 
 post:
-    # Trace emails in Tracy
-    trace: %debugMode%
+	# Trace emails in Tracy
+	trace: %debugMode%
 ```
 
 There are several mailer implementations:
 
-```yaml
+```neon
 services:
-    # Dump mails in folder
-    mail.mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
+	# Dump mails in folder
+	mail.mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
 
-    # Polished sendmail
-    mail.mailer:
-      class: Contributte\Mail\Mailer\SendmailMailer
-      setup:
-        - setBounceMail(mail@contributte.org)
+	# Polished sendmail
+	mail.mailer:
+		class: Contributte\Mail\Mailer\SendmailMailer
+		setup:
+			- setBounceMail(mail@contributte.org)
 
-    # Redirect all mails to one address
-    mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(dev@contributte.org)
+	# Redirect all mails to one address
+	mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(dev@contributte.org)
 
-    # Send mails to multiple mailers
-    mail.mailer:
-      class: Contributte\Mail\Mailer\CompositeMailer
-      arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
-      setup:
-        - add(@mailer1)
-        - add(@mailer2)
+	# Send mails to multiple mailers
+	mail.mailer:
+		class: Contributte\Mail\Mailer\CompositeMailer
+		arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
+		setup:
+			- add(@mailer1)
+			- add(@mailer2)
 ```
 
 ## Mailers
@@ -131,14 +132,14 @@ use Contributte\Mail\Message\IMessageFactory;
 class Foo
 {
 
-    /** @var IMessageFactory @inject */
-    public $messageFactory;
+	/** @var IMessageFactory @inject */
+	public $messageFactory;
 
-    public function sendMail(): void
-    {
-        $message = $this->messageFactory->create();
-        // ...
-    }
+	public function sendMail(): void
+	{
+		$message = $this->messageFactory->create();
+		//...
+	}
 
 }
 ```
