@@ -53,7 +53,7 @@ services:
 			- setBounceMail(mail@contributte.org)
 
 	# Redirect all mails to one address
-	mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(dev@contributte.org)
+	mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(@originalMailer, dev@contributte.org)
 
 	# Send mails to multiple mailers
 	mail.mailer:
@@ -95,7 +95,7 @@ $mailer->onSend[] = function($mailer, $message) {};
 Sends all emails to one address with preserved original attributes.
 
 ```php
-$mailer = new DevOpsMailer('dev@contributte.org');
+$mailer = new DevOpsMailer($originalMailer, 'dev@contributte.org');
 ```
 
 ### DevNullMailer
