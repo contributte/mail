@@ -5,7 +5,7 @@ namespace Contributte\Mail\Mailer;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class TraceableMailer implements Mailer
+class TraceableMailer implements Mailer
 {
 
 	private Mailer $mailer;

@@ -6,7 +6,7 @@ use Contributte\Mail\Exception\RuntimeException;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class FileMailer implements Mailer
+class FileMailer implements Mailer
 {
 
 	private string $path;

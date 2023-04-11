@@ -5,7 +5,7 @@ namespace Contributte\Mail\Tracy;
 use Contributte\Mail\Mailer\TraceableMailer;
 use Tracy\IBarPanel;
 
-final class MailPanel implements IBarPanel
+class MailPanel implements IBarPanel
 {
 
 	private TraceableMailer $traceableMailer;

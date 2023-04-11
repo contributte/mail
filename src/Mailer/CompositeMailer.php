@@ -6,7 +6,7 @@ use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 use Throwable;
 
-final class CompositeMailer implements Mailer
+class CompositeMailer implements Mailer
 {
 
 	/** @var Mailer[] */

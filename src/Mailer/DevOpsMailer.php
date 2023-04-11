@@ -5,7 +5,7 @@ namespace Contributte\Mail\Mailer;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 
-final class DevOpsMailer implements Mailer
+class DevOpsMailer implements Mailer
 {
 
 	private Mailer $mailer;
@@ -23,19 +23,22 @@ final class DevOpsMailer implements Mailer
 	 */
 	public function send(Message $mail): void
 	{
+		/** @var callable(string): string[] $getHeaders */
+		$getHeaders = static fn (string $name) => (array) $mail->getHeader($name);
+
 		// Set original To, Cc, Bcc
 		$counter = 0;
-		foreach ((array) $mail->getHeader('To') as $email => $name) {
+		foreach ($getHeaders('To') as $email => $name) {
 			$mail->setHeader('X-Original-To-' . $counter++, sprintf('<%s> %s', $email, $name));
 		}
 
 		$counter = 0;
-		foreach ((array) $mail->getHeader('Cc') as $email => $name) {
+		foreach ($getHeaders('Cc') as $email => $name) {
 			$mail->setHeader('X-Original-Cc-' . $counter++, sprintf('<%s> %s', $email, $name));
 		}
 
 		$counter = 0;
-		foreach ((array) $mail->getHeader('Bcc') as $email => $name) {
+		foreach ($getHeaders('Bcc') as $email => $name) {
 			$mail->setHeader('X-Original-Bcc-' . $counter++, sprintf('<%s> %s', $email, $name));
 		}
 
