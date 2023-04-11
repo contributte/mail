@@ -5,7 +5,7 @@ Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 ## Content
 
 - [Setup](#setup)
-- [MailExtension](#mailextension)
+- [Configuration](#configuration)
 - [Mailers](#mailers)
 	- [FileMailer](#filemailer)
 	- [SendmailMailer](#sendmailmailer)
@@ -17,11 +17,24 @@ Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 
 ## Setup
 
+Install package
+
 ```bash
 composer require contributte/mail
 ```
 
-## MailExtension
+Register extension
+
+```neon
+extensions:
+	# Native nette/mail
+	mail: Nette\Bridges\MailDI\MailExtension
+
+	# Our contributte/mail
+	post: Contributte\Mail\DI\MailExtension
+```
+
+## Configuration
 
 You have to manually register this extension in the first place.
 
@@ -33,35 +46,6 @@ Simple example:
 extensions:
 	mail: Nette\Bridges\MailDI\MailExtension
 	post: Contributte\Mail\DI\MailExtension
-
-post:
-	# Trace emails in Tracy
-	trace: %debugMode%
-```
-
-There are several mailer implementations:
-
-```neon
-services:
-	# Dump mails in folder
-	mail.mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
-
-	# Polished sendmail
-	mail.mailer:
-		class: Contributte\Mail\Mailer\SendmailMailer
-		setup:
-			- setBounceMail(mail@contributte.org)
-
-	# Redirect all mails to one address
-	mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(@originalMailer, dev@contributte.org)
-
-	# Send mails to multiple mailers
-	mail.mailer:
-		class: Contributte\Mail\Mailer\CompositeMailer
-		arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
-		setup:
-			- add(@mailer1)
-			- add(@mailer2)
 ```
 
 ## Mailers
@@ -70,6 +54,14 @@ services:
 
 Stores emails on your file system.
 
+**Configuration**
+
+```neon
+services:
+	# Dump mails in folder
+	mail.mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
+```
+
 ```php
 $mailer = new FileMailer(__DIR__ . '/temp/mails');
 ```
@@ -77,6 +69,17 @@ $mailer = new FileMailer(__DIR__ . '/temp/mails');
 ### SendmailMailer
 
 This is the default `Nette\Mail\SendmailMailer` with some extra methods and fields.
+
+**Configuration**
+
+```neon
+services:
+	# Polished sendmail
+	mail.mailer:
+		class: Contributte\Mail\Mailer\SendmailMailer
+		setup:
+			- setBounceMail(mail@contributte.org)
+```
 
 **Bounce mail**
 
@@ -94,6 +97,14 @@ $mailer->onSend[] = function($mailer, $message) {};
 
 Sends all emails to one address with preserved original attributes.
 
+**Configuration**
+
+```neon
+services:
+	# Redirect all mails to one address
+	mail.mailer: Contributte\Mail\Mailer\DevOpsMailer(@originalMailer, dev@contributte.org)
+```
+
 ```php
 $mailer = new DevOpsMailer($originalMailer, 'dev@contributte.org');
 ```
@@ -110,6 +121,19 @@ $mailer = new DevNullMailer();
 
 Combines more mailers together.
 
+**Configuration**
+
+```neon
+services:
+	# Send mails to multiple mailers
+	mail.mailer:
+		class: Contributte\Mail\Mailer\CompositeMailer
+		arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
+		setup:
+			- add(@mailer1)
+			- add(@mailer2)
+```
+
 ```php
 $mailer = new CompositeMailer($silent = false); // If silent is enabled then exceptions from mailers are caught
 $mailer->add(new FileMailer(__DIR__ . '/temp/mails'));
@@ -120,11 +144,17 @@ $mailer->add(new DevOpsMailer('dev@contributte.org'));
 
 Internally wraps your mailer and displays sent mails when the `trace` option is set to `true` in a Tracy panel.
 
+```neon
+post:
+	# Trace emails in Tracy
+	trace: %debugMode%
+```
+
 ## Message
 
 ### MessageFactory
 
-DIC-generated `Message` factory
+You can rely on `IMessageFactory` message factory for creating mail messages.
 
 ```php
 use Contributte\Mail\Message\IMessageFactory;
@@ -132,8 +162,8 @@ use Contributte\Mail\Message\IMessageFactory;
 class Foo
 {
 
-	/** @var IMessageFactory @inject */
-	public $messageFactory;
+	/** @inject */
+	public IMessageFactory $messageFactory;
 
 	public function sendMail(): void
 	{
@@ -144,6 +174,10 @@ class Foo
 }
 ```
 
-### `Message::addTos(array $tos)`
+### Message
 
-This wrapper accepts an array of recipients and calls `addTo` on each one of them.
+`Message` extends `Nette\Mail\Message` and add more functions.
+
+#### `$message->addTos(array $tos)`
+
+Accepts an array of recipients and calls `addTo` on each one of them.
