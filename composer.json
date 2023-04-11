@@ -21,14 +21,14 @@
     "nette/utils": "^3.0.0"
   },
   "require-dev": {
-    "nette/di": "^3.0.4",
-    "ninjify/nunjuck": "^0.4",
-    "ninjify/qa": "^0.12",
-    "phpstan/phpstan": "^1.0",
-    "phpstan/phpstan-deprecation-rules": "^1.0",
-    "phpstan/phpstan-nette": "^1.0",
-    "phpstan/phpstan-strict-rules": "^1.0",
-    "tracy/tracy": "^2.6.2"
+    "contributte/tester": "^0.2.0",
+    "contributte/qa": "^0.4.0",
+    "nette/di": "^3.1.2",
+    "phpstan/phpstan": "^1.10.11",
+    "phpstan/phpstan-deprecation-rules": "^1.1.3",
+    "phpstan/phpstan-nette": "^1.2.4",
+    "phpstan/phpstan-strict-rules": "^1.5.1",
+    "tracy/tracy": "^2.10.2"
   },
   "suggest": {
     "contributte/di": "to use MailerExtension[CompilerExtension]"
