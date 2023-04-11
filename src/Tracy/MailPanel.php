@@ -8,8 +8,7 @@ use Tracy\IBarPanel;
 final class MailPanel implements IBarPanel
 {
 
-	/** @var TraceableMailer */
-	private $traceableMailer;
+	private TraceableMailer $traceableMailer;
 
 	public function setTraceableMailer(TraceableMailer $traceableMailer): void
 	{

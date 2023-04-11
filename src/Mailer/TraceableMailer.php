@@ -8,11 +8,10 @@ use Nette\Mail\Message;
 final class TraceableMailer implements Mailer
 {
 
-	/** @var Mailer */
-	private $mailer;
+	private Mailer $mailer;
 
 	/** @var Message[] */
-	private $mails = [];
+	private array $mails = [];
 
 	public function __construct(Mailer $mailer)
 	{

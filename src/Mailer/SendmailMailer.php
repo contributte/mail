@@ -11,10 +11,9 @@ class SendmailMailer extends NSendmailMailer
 {
 
 	/** @var callable[] function (SendmailMailer $mailer, Message $mail); */
-	public $onSend = [];
+	public array $onSend = [];
 
-	/** @var string|null */
-	private $bounceMail;
+	private ?string $bounceMail = null;
 
 	public function setBounceMail(string $bounceMail): void
 	{

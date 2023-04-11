@@ -8,11 +8,9 @@ use Nette\Mail\Message;
 final class DevOpsMailer implements Mailer
 {
 
-	/** @var Mailer */
-	private $mailer;
+	private Mailer $mailer;
 
-	/** @var string */
-	private $mail;
+	private string $mail;
 
 	public function __construct(Mailer $mailer, string $mail)
 	{

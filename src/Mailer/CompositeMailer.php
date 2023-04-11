@@ -10,10 +10,9 @@ final class CompositeMailer implements Mailer
 {
 
 	/** @var Mailer[] */
-	private $mailers = [];
+	private array $mailers = [];
 
-	/** @var bool */
-	private $silent;
+	private bool $silent;
 
 	public function __construct(bool $silent = false)
 	{

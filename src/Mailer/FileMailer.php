@@ -9,8 +9,7 @@ use Nette\Mail\Message;
 final class FileMailer implements Mailer
 {
 
-	/** @var string */
-	private $path;
+	private string $path;
 
 	public function __construct(string $path)
 	{
