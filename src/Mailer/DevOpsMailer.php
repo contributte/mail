@@ -8,22 +8,13 @@ use Nette\Mail\Message;
 class DevOpsMailer implements Mailer
 {
 
-	private Mailer $mailer;
-
-	private string $mail;
-
-	public function __construct(Mailer $mailer, string $mail)
+	public function __construct(private Mailer $mailer, private string $mail)
 	{
-		$this->mailer = $mailer;
-		$this->mail = $mail;
 	}
 
-	/**
-	 * Sends email
-	 */
 	public function send(Message $mail): void
 	{
-		/** @var callable(string): string[] $getHeaders */
+		/** @var callable(string): array<string> $getHeaders */
 		$getHeaders = static fn (string $name) => (array) $mail->getHeader($name);
 
 		// Set original To, Cc, Bcc

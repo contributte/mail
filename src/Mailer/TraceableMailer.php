@@ -8,19 +8,13 @@ use Nette\Mail\Message;
 class TraceableMailer implements Mailer
 {
 
-	private Mailer $mailer;
-
-	/** @var Message[] */
+	/** @var array<Message> */
 	private array $mails = [];
 
-	public function __construct(Mailer $mailer)
+	public function __construct(private Mailer $mailer)
 	{
-		$this->mailer = $mailer;
 	}
 
-	/**
-	 * Sends email
-	 */
 	public function send(Message $mail): void
 	{
 		// Trace sent mails
@@ -31,7 +25,7 @@ class TraceableMailer implements Mailer
 	}
 
 	/**
-	 * @return Message[]
+	 * @return array<Message>
 	 */
 	public function getMails(): array
 	{
