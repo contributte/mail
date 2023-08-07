@@ -8,7 +8,7 @@ class Message extends NMessage
 {
 
 	/**
-	 * @param string[] $receivers
+	 * @param array<string, string|null> $receivers
 	 */
 	public function addTos(array $receivers): void
 	{

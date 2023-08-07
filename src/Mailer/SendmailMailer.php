@@ -24,9 +24,6 @@ class SendmailMailer extends NSendmailMailer
 		$this->bounceMail = $bounceMail;
 	}
 
-	/**
-	 * Sends email
-	 */
 	public function send(Message $mail): void
 	{
 		if ($this->bounceMail !== null) {

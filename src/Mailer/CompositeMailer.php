@@ -9,14 +9,11 @@ use Throwable;
 class CompositeMailer implements Mailer
 {
 
-	/** @var Mailer[] */
+	/** @var array<Mailer> */
 	private array $mailers = [];
 
-	private bool $silent;
-
-	public function __construct(bool $silent = false)
+	public function __construct(private bool $silent = false)
 	{
-		$this->silent = $silent;
 	}
 
 	public function add(Mailer $mailer): void
@@ -25,7 +22,7 @@ class CompositeMailer implements Mailer
 	}
 
 	/**
-	 * @throw Exception
+	 * @throws Throwable
 	 */
 	public function send(Message $mail): void
 	{
