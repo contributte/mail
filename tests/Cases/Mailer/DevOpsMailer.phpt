@@ -23,11 +23,9 @@ Toolkit::test(function (): void {
 
 	$devopsMailer = new DevOpsMailer($mailer, 'catchall@contributte.org');
 
-	$message = new Message();
-	$message->setSubject('Test');
-	$message->addTo('john@contributte.org');
-
-	$messageMock = Mockery::mock($message)->makePartial();
+	$messageMock = Mockery::mock(Message::class)->makePartial();
+	$messageMock->setSubject('Test');
+	$messageMock->addTo('john@contributte.org');
 	$messageMock->shouldReceive('setHeader')
 		->with('Bcc', null)
 		->once();
