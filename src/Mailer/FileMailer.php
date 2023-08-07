@@ -2,27 +2,21 @@
 
 namespace Contributte\Mail\Mailer;
 
-use Contributte\Mail\Exception\RuntimeException;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
+use Nette\Utils\FileSystem;
 
 class FileMailer implements Mailer
 {
 
-	private string $path;
-
-	public function __construct(string $path)
+	public function __construct(private string $path)
 	{
-		if (!is_dir($path) && !mkdir($path, 0777, true)) {
-			throw new RuntimeException(sprintf('Directory "%s" was not created', $path));
-		}
-
-		$this->path = realpath($path) . DIRECTORY_SEPARATOR;
+		FileSystem::createDir($this->path);
 	}
 
 	public function send(Message $mail): void
 	{
-		file_put_contents($this->path . date('Y-m-d H-i-s') . microtime() . '.eml', $mail->generateMessage());
+		file_put_contents($this->path . '/' . date('Y-m-d H-i-s') . microtime() . '.eml', $mail->generateMessage());
 	}
 
 }
