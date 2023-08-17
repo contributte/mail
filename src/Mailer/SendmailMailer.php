@@ -2,7 +2,7 @@
 
 namespace Contributte\Mail\Mailer;
 
-use Nette\InvalidArgumentException;
+use Contributte\Mail\Exception\Logic\InvalidArgumentException;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer as NSendmailMailer;
 use Nette\Utils\Validators;
