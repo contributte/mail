@@ -3,7 +3,7 @@
 	<!-- Rulesets -->
 	<rule ref="./vendor/contributte/qa/ruleset-8.0.xml"/>
 
-	<!-- Specific rules -->
+	<!-- Rules -->
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
 			<property name="rootNamespaces" type="array">
@@ -13,6 +13,6 @@
 		</properties>
 	</rule>
 
-	<!-- Exclude folders -->
+	<!-- Excludes -->
 	<exclude-pattern>/tests/tmp</exclude-pattern>
 </ruleset>
