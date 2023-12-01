@@ -2,16 +2,13 @@
 
 namespace Tests\Cases\Message;
 
-/**
- * Test: Message\Message
- */
-
 use Contributte\Mail\Message\Message;
+use Contributte\Tester\Toolkit;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-test(function (): void {
+Toolkit::test(function (): void {
 	$message = new Message();
 	$message->addTos([
 		'foo@foo.foo' => 'Foo',

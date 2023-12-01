@@ -2,19 +2,15 @@
 
 namespace Tests\Cases\Mailer;
 
-/**
- * Test: Mailer\CompositeMailer
- */
-
 use Contributte\Mail\Mailer\CompositeMailer;
+use Contributte\Tester\Toolkit;
 use Nette\Mail\Message;
 use Tester\Assert;
 use Tests\Fixtures\ModifyMailer;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-
-test(function (): void {
+Toolkit::test(function (): void {
 	$cm = new CompositeMailer(true);
 	$cm->add(new ModifyMailer());
 

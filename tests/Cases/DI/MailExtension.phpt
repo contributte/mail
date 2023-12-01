@@ -2,55 +2,47 @@
 
 namespace Tests\Cases\DI;
 
-/**
- * Test: DI\MailExtension
- */
-
 use Contributte\Mail\DI\MailExtension;
 use Contributte\Mail\Mailer\FileMailer;
 use Contributte\Mail\Mailer\TraceableMailer;
+use Contributte\Tester\Environment;
+use Contributte\Tester\Toolkit;
+use Contributte\Tester\Utils\ContainerBuilder;
+use Contributte\Tester\Utils\Neonkit;
 use Nette\Bridges\MailDI\MailExtension as NetteMailExtension;
 use Nette\DI\Compiler;
-use Nette\DI\Container;
-use Nette\DI\ContainerLoader;
 use Nette\DI\MissingServiceException;
 use Nette\Mail\Mailer;
 use Nette\Mail\SendmailMailer;
 use Tester\Assert;
-use Tester\FileMock;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
 // Missing mailer
-test(function (): void {
+Toolkit::test(function (): void {
 	Assert::exception(function (): void {
-		$loader = new ContainerLoader(TEMP_DIR, true);
-		$class = $loader->load(function (Compiler $compiler): void {
-			$compiler->addExtension('post', new MailExtension());
-			$compiler->loadConfig(FileMock::create('
-			post:
-				trace: true
-			', 'neon'));
-		}, 1);
-
-		new $class();
+		ContainerBuilder::of()
+			->withCompiler(function (Compiler $compiler): void {
+				$compiler->addExtension('post', new MailExtension());
+				$compiler->addConfig(Neonkit::load('
+				post:
+					trace: true
+				'));
+			})->build();
 	}, MissingServiceException::class);
 });
 
 // Default
-test(function (): void {
-	$loader = new ContainerLoader(TEMP_DIR, true);
-	$class = $loader->load(function (Compiler $compiler): void {
-		$compiler->addExtension('mail', new NetteMailExtension());
-		$compiler->addExtension('post', new MailExtension());
-		$compiler->loadConfig(FileMock::create('
-			post:
-				trace: true
-			', 'neon'));
-	}, 2);
-
-	/** @var Container $container */
-	$container = new $class();
+Toolkit::test(function (): void {
+	$container = ContainerBuilder::of()
+		->withCompiler(function (Compiler $compiler): void {
+			$compiler->addExtension('mail', new NetteMailExtension());
+			$compiler->addExtension('post', new MailExtension());
+			$compiler->addConfig(Neonkit::load('
+				post:
+					trace: true
+				'));
+		})->build();
 
 	Assert::type(TraceableMailer::class, $container->getByType(Mailer::class));
 	Assert::type(SendmailMailer::class, $container->getService('nette.mailer'));
@@ -59,26 +51,22 @@ test(function (): void {
 });
 
 // Custom mailer
-test(function (): void {
-	$loader = new ContainerLoader(TEMP_DIR, true);
-	$class = $loader->load(function (Compiler $compiler): void {
-		$compiler->addExtension('post', new MailExtension());
-		$compiler->addConfig([
-			'parameters' => [
-				'tempDir' => TEMP_DIR,
-			],
-		]);
-		$compiler->loadConfig(FileMock::create('
+Toolkit::test(function (): void {
+	$container = ContainerBuilder::of()
+		->withCompiler(function (Compiler $compiler): void {
+			$compiler->addExtension('post', new MailExtension());
+			$compiler->addConfig([
+				'parameters' => [
+					'tempDir' => Environment::getTestDir(),
+				],
+			]);
+			$compiler->addConfig(Neonkit::load('
 			services:
 				mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%)
 			post:
 				trace: true
-			', 'neon'));
-	}, 3);
-
-	/** @var Container $container */
-	$container = new $class();
-
+			'));
+		})->build();
 	Assert::type(TraceableMailer::class, $container->getByType(Mailer::class));
 	Assert::type(FileMailer::class, $container->getService('mailer'));
 });
