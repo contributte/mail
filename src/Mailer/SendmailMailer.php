@@ -32,7 +32,9 @@ class SendmailMailer extends NSendmailMailer
 		}
 
 		// Trigger event
-		$this->onSend($this, $mail);
+		foreach ($this->onSend as $callback) {
+			$callback($this, $mail);
+		}
 
 		// Delegate to original mailer
 		parent::send($mail);
