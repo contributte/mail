@@ -14,6 +14,7 @@ Extra contribution to [`nette/mail`](https://github.com/nette/mail).
 	- [DevNullMailer](#devnullmailer)
 	- [TraceableMailer](#traceablemailer)
 - [Message](#message)
+- [IMAP](#imap)
 
 ## Setup
 
@@ -181,3 +182,71 @@ class Foo
 #### `$message->addTos(array $tos)`
 
 Accepts an array of recipients and calls `addTo` on each one of them.
+
+## IMAP
+
+### ImapReader
+
+Reads emails from an IMAP mailbox.
+
+```php
+use Contributte\Mail\Imap\ImapReader;
+
+$reader = new ImapReader('{imap.example.com:993/imap/ssl}INBOX', 'username', 'password');
+
+// Read all messages
+$messages = $reader->read();
+
+// Read unread messages only
+$messages = $reader->read(ImapReader::CRITERIA_UNSEEN);
+
+// Flag message as seen
+$reader->flag('1', ImapMessage::FLAG_SEEN);
+
+// Unflag message
+$reader->unflag('1', ImapMessage::FLAG_SEEN);
+
+// Check connection
+if ($reader->isAlive()) {
+	// Connection is active
+}
+```
+
+### ImapMessage
+
+Represents an email message retrieved via IMAP.
+
+```php
+use Contributte\Mail\Imap\ImapMessage;
+
+// Get message properties
+$number = $message->getNumber();
+$headers = $message->getHeaders();
+$structure = $message->getStructure();
+
+// Get message body
+$body = $message->getBody();
+$section = $message->getBodySection(0);
+$text = $message->getBodySectionText(0); // UTF-8 converted
+
+// Get charset
+$charset = $message->getBodyCharset();
+```
+
+**Message flags:**
+
+- `ImapMessage::FLAG_SEEN`
+- `ImapMessage::FLAG_ANSWERED`
+- `ImapMessage::FLAG_FLAGGED`
+- `ImapMessage::FLAG_DELETED`
+- `ImapMessage::FLAG_DRAFT`
+
+**Search criteria:**
+
+- `ImapReader::CRITERIA_ALL`
+- `ImapReader::CRITERIA_UNSEEN`
+- `ImapReader::CRITERIA_SEEN`
+- `ImapReader::CRITERIA_NEW`
+- `ImapReader::CRITERIA_FROM`
+- `ImapReader::CRITERIA_SUBJECT`
+- ... and more
