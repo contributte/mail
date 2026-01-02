@@ -64,21 +64,25 @@ class ImapMessage
 
 	public function getBodySectionText(int $section, ?int $encoding = null): string
 	{
-		$text = $this->getBodySection($section);
-		$encoding = $encoding ?? (isset($this->structure->parts[$section]) ? $this->structure->parts[$section]->encoding : $this->structure->encoding);
+		$bodySection = $this->getBodySection($section);
+		$text = is_string($bodySection) ? $bodySection : '';
+		$encoding ??= (isset($this->structure->parts[$section]) ? $this->structure->parts[$section]->encoding : $this->structure->encoding);
 
 		switch ($encoding) {
 			case 0: // 7BIT
 				$etext = $text;
 				break;
 			case 1: // 8BIT
-				$etext = quoted_printable_decode(imap_8bit($text));
+				$encoded = imap_8bit($text);
+				$etext = $encoded !== false ? quoted_printable_decode($encoded) : $text;
 				break;
 			case 2: // BINARY
-				$etext = imap_binary($text);
+				$decoded = imap_binary($text);
+				$etext = $decoded !== false ? $decoded : $text;
 				break;
 			case 3: // BASE64
-				$etext = imap_base64($text);
+				$decoded = imap_base64($text);
+				$etext = $decoded !== false ? $decoded : $text;
 				break;
 			case 4: // QUOTED-PRINTABLE
 				$etext = quoted_printable_decode($text);
@@ -89,19 +93,23 @@ class ImapMessage
 		}
 
 		$charset = $this->getBodyCharset();
-		$charset = $charset ?: mb_detect_encoding($etext, mb_detect_order(), true);
-		if ($charset === false) {
+		$detectedCharset = mb_detect_encoding($etext, mb_list_encodings(), true);
+		$charset ??= $detectedCharset !== false ? $detectedCharset : null;
+
+		if ($charset === null) {
 			return $etext;
-		} else {
-			return iconv($charset, 'UTF-8//TRANSLIT', $etext);
 		}
+
+		$converted = iconv($charset, 'UTF-8//TRANSLIT', $etext);
+
+		return $converted !== false ? $converted : $etext;
 	}
 
 	public function getBodyCharset(): ?string
 	{
 		foreach ($this->structure->parameters as $pair) {
-			if (isset($pair->attribute) && $pair->attribute === 'charset') {
-				return $pair->value;
+			if (isset($pair->attribute, $pair->value) && $pair->attribute === 'charset') {
+				return (string) $pair->value;
 			}
 		}
 
@@ -115,12 +123,40 @@ class ImapMessage
 
 	private function utf8(mixed $data): stdClass
 	{
-		$array = json_decode(json_encode($data), true);
-		array_walk_recursive($array, function ($v, $k) {
-			return is_array($v) ? $v : imap_utf8($v);
-		});
+		$json = json_encode($data);
+		if ($json === false) {
+			return new stdClass();
+		}
 
-		return json_decode(json_encode($array));
+		$array = json_decode($json, true);
+		if (!is_array($array)) {
+			return new stdClass();
+		}
+
+		$array = $this->utf8Array($array);
+		$result = json_decode((string) json_encode($array));
+
+		return $result instanceof stdClass ? $result : new stdClass();
+	}
+
+	/**
+	 * @param array<mixed> $array
+	 * @return array<mixed>
+	 */
+	private function utf8Array(array $array): array
+	{
+		$result = [];
+		foreach ($array as $key => $value) {
+			if (is_array($value)) {
+				$result[$key] = $this->utf8Array($value);
+			} elseif (is_string($value)) {
+				$result[$key] = imap_utf8($value);
+			} else {
+				$result[$key] = $value;
+			}
+		}
+
+		return $result;
 	}
 
 }
