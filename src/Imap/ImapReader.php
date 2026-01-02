@@ -56,14 +56,14 @@ final class ImapReader
 
 	public function isAlive(): bool
 	{
-		return (bool) @imap_ping($this->imap);
+		return @imap_ping($this->imap);
 	}
 
 	/** @return ImapMessage[] */
 	public function read(string $criteria = 'ALL', int $options = SE_FREE): array
 	{
 		$mails = imap_search($this->imap, $criteria, $options);
-		if (!$mails) {
+		if ($mails === false) {
 			return [];
 		}
 
@@ -71,7 +71,7 @@ final class ImapReader
 		foreach ($mails as $mailnum) {
 			$structure = imap_fetchstructure($this->imap, $mailnum);
 			$headers = imap_headerinfo($this->imap, $mailnum);
-			if (!$structure || !$headers) {
+			if ($structure === false || $headers === false) {
 				continue;
 			}
 
@@ -95,7 +95,10 @@ final class ImapReader
 		// @todo
 	}
 
-	/** @param string|array<string> $sequence */
+	/**
+	 * @param string|array<string> $sequence
+	 * @param string|array<string> $flag
+	 */
 	public function flag(string|array $sequence, string|array $flag): bool
 	{
 		$sequence = is_array($sequence) ? implode(',', $sequence) : $sequence;
@@ -104,7 +107,10 @@ final class ImapReader
 		return imap_setflag_full($this->imap, $sequence, $flag);
 	}
 
-	/** @param string|array<string> $sequence */
+	/**
+	 * @param string|array<string> $sequence
+	 * @param string|array<string> $flag
+	 */
 	public function unflag(string|array $sequence, string|array $flag): bool
 	{
 		$sequence = is_array($sequence) ? implode(',', $sequence) : $sequence;
@@ -113,18 +119,14 @@ final class ImapReader
 		return imap_clearflag_full($this->imap, $sequence, $flag);
 	}
 
-	/** @param array<mixed> $arguments */
-	public function __call(string $name, array $arguments): mixed
-	{
-		$args = $arguments;
-		array_unshift($args, $this->imap);
-
-		return call_user_func_array('imap_' . $name, $args);
-	}
-
 	protected function connect(): void
 	{
-		$this->imap = imap_open($this->mailbox, $this->username, $this->password);
+		$connection = imap_open($this->mailbox, $this->username, $this->password);
+		if ($connection === false) {
+			throw new \RuntimeException('Failed to connect to IMAP server');
+		}
+
+		$this->imap = $connection;
 	}
 
 	protected function disconnect(): void
@@ -132,6 +134,18 @@ final class ImapReader
 		imap_errors();
 		imap_alerts();
 		imap_close($this->imap);
+	}
+
+	/** @param array<mixed> $arguments */
+	public function __call(string $name, array $arguments): mixed
+	{
+		$args = $arguments;
+		array_unshift($args, $this->imap);
+
+		/** @var callable $callback */
+		$callback = 'imap_' . $name;
+
+		return call_user_func_array($callback, $args);
 	}
 
 }
