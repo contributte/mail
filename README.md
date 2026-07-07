@@ -18,7 +18,7 @@
 Website 🚀 <a href="https://contributte.org">contributte.org</a> | Contact 👨🏻‍💻 <a href="https://f3l1x.io">f3l1x.io</a> | Twitter 🐦 <a href="https://twitter.com/contributte">@contributte</a>
 </p>
 
-Extra contrib to nette/mail.
+Additional mail utilities for Nette applications built on top of `nette/mail`.
 
 ## Versions
 
@@ -38,7 +38,7 @@ Extra contrib to nette/mail.
 	- [CompositeMailer](#compositemailer)
 	- [DevNullMailer](#devnullmailer)
 	- [TraceableMailer](#traceablemailer)
-- [Message](#message)
+- [Messages](#messages)
 - [IMAP](#imap)
 
 ## Installation
@@ -154,7 +154,7 @@ services:
 	# Send mails to multiple mailers
 	mail.mailer:
 		class: Contributte\Mail\Mailer\CompositeMailer
-		arguments: [silent: false] # If silent is enabled then exceptions from mailers are catched
+		arguments: [silent: false] # If silent is enabled then exceptions from mailers are caught
 		setup:
 			- add(@mailer1)
 			- add(@mailer2)
@@ -176,7 +176,7 @@ post:
 	trace: %debugMode%
 ```
 
-## Message
+## Messages
 
 ### MessageFactory
 
@@ -200,9 +200,9 @@ class Foo
 }
 ```
 
-### Message
+### Extended Message
 
-`Message` extends `Nette\Mail\Message` and add more functions.
+`Message` extends `Nette\Mail\Message` and adds more functions.
 
 #### `$message->addTos(array $tos)`
 
